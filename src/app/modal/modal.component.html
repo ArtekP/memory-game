@@ -1,6 +1,6 @@
 <div class="modal">
   <h1>Congratulations!</h1>
-  <p>You have won! It took {{ getTime() }} and {{ allMatches }} matches to win! You are awesome!</p>
+  <p>You have won! It took <span>{{ getTime() }}</span> and <span>{{ allMatches }}</span> matches to win! You are awesome!</p>
   <div class="buttons">
     <button (click)="newGame()">Play again</button>
     <button (click)="onClose()">Close</button>

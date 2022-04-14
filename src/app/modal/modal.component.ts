@@ -18,11 +18,11 @@ export class ModalComponent implements OnInit {
   }
 
   timerToMinutes() {
-    return Math.floor(this.timer / 60) == 0 ? '' : `${Math.floor(this.timer / 60)}m `
+    return Math.floor(this.timer / 60) == 0 ? '' : `${Math.floor(this.timer / 60)}min `
   }
 
   getTime() {
-    return `${this.timerToMinutes()}${this.timer % 60}s`
+    return `${this.timerToMinutes()}${this.timer % 60}sec`
   }
 
   onClose() {
