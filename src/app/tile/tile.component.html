@@ -15,4 +15,5 @@
     </div>
 </div>
 
+<div class="button-container"><button (click)="newGame()" *ngIf="successfulMatches === 10">Play again!</button></div>
 <app-modal [timer]="timer" [allMatches]="allMatches" *ngIf="isModalActive"></app-modal>

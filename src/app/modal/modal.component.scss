@@ -3,7 +3,7 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.322);
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   display: flex;
   justify-content: center;
@@ -12,40 +12,53 @@
 
 .modal {
   height: 15em;
-  width: 30em;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 0.5em;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   padding: 2em;
 
-  > p {
-    text-align: center;
+  >div {
+    > h1 {
+      text-align: center;
+      margin-bottom: 1.2em;
+    }
+    >p {
+      text-align: center;
 
-    > span {
-      font-size: 1.3em;
-      font-weight: 900;
+      >span {
+        font-size: 1.3em;
+        font-weight: 900;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      column-gap: 3em;
+      margin: 2em 2em 1em 2em;
+
+      >button {
+        padding: 0.7em;
+        width: 10em;
+        outline: 0;
+        font-family: 'Hope';
+        font-size: 1.2em;
+        border: 1px solid white;
+        border-radius: 0.5em;
+        color: white;
+        background-color: rgba(31, 2, 2, 0.733);
+        cursor: pointer;
+      }
     }
   }
 
-  .buttons {
-    display: flex;
-    flex-direction: row;
-    column-gap: 3em;
-    margin: 2em;
-    > button {
-      padding: 0.7em;
-      width: 10em;
-      outline: 0;
-      font-family: 'Hope';
-      font-size: 1.2em;
-      border: 1px solid white;
-      border-radius: 0.5em;
-      color: white;
-      background-color: rgba(31, 2, 2, 0.733);
-      cursor: pointer;
+
+  >div {
+    >img {
+      width: 15em;
     }
   }
 }

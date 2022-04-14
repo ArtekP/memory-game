@@ -29,7 +29,7 @@ export class TileComponent implements OnInit {
   isTimerGoing: boolean = false;
 
 
-  constructor(private pokeService: PokeService, private playServ: PlayService) {
+  constructor(private pokeService: PokeService) {
     this.pokeService.getRandomNumberList();
     this.pokeService.getPokeList();
     this.pokeArray = this.pokeService.newPokeArray;
@@ -55,6 +55,7 @@ export class TileComponent implements OnInit {
       this.isTimerGoing = true;
       this.myInterval = setInterval(() => this.timer++, 1000)
     };
+
     if (this.activePokesArr.length < 2) {
       this.activePokesArr.push(poke);
     } else if (this.activePokesArr.length === 2) {
@@ -67,13 +68,17 @@ export class TileComponent implements OnInit {
       this.successfulMatches++;
       this.matchedArr.push(this.activePokesArr[0]);
     }
-    if (this.activePokesArr.length === 2) {
-      this.allMatches++;
-    }
+
+    this.activePokesArr.length === 2 ? this.allMatches++ : '';
+
 
     if (this.successfulMatches === 10) {
       clearInterval(this.myInterval);
       this.isModalActive = true;
     }
+  }
+
+  newGame() {
+    window.location.reload()
   }
 }
