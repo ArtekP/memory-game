@@ -1,21 +1,16 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+
+export class ModalComponent{
   @Input() timer!:number;
   @Input() allMatches!: number;
 
-
-  constructor(private host: ElementRef<HTMLElement>, private router: Router) { }
-
-  ngOnInit(): void {
-
-  }
+  constructor(private host: ElementRef<HTMLElement>) { }
 
   timerToMinutes() {
     return Math.floor(this.timer / 60) == 0 ? '' : `${Math.floor(this.timer / 60)}min `
@@ -30,6 +25,6 @@ export class ModalComponent implements OnInit {
   }
 
   newGame() {
-    window.location.reload()
+    window.location.reload();
   }
 }

@@ -2,14 +2,13 @@ import {
   HttpClient
 } from '@angular/common/http';
 import {
-  Injectable,
-  OnInit
+  Injectable
 } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PokeService implements OnInit {
+export class PokeService {
   randomNumberArr: number[] = [];
   pokes!: any;
   pokeArray: any = [];
@@ -18,8 +17,6 @@ export class PokeService implements OnInit {
   configUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
   constructor(private http: HttpClient) {}
-
-  ngOnInit() {}
 
   getRandomNumberList() {
     let arr: number[] = [];
@@ -33,7 +30,7 @@ export class PokeService implements OnInit {
     }
     this.randomNumberArr = [...arr];
     this.pokeArray = this.randomNumberArr.slice().concat(this.randomNumberArr.slice());
-    this.shuffleArray(this.pokeArray)
+    this.shuffleArray(this.pokeArray);
   }
 
   shuffleArray(a: number[]) {
@@ -50,14 +47,19 @@ export class PokeService implements OnInit {
 
   getPokeList() {
     let arr: any = [];
-    for(let i = 0; i < 20; i++) {
-      this.http.get<any>(this.configUrl + this.pokeArray[i]).subscribe(value => {
-        value = value.sprites.front_default as string;
-        this.newPokeArray.push(value);
-        // console.log('val2 ' + value)
-      });
+    for (let i = 0; i < 20; i++) {
+      try {
+        this.http.get < any > (this.configUrl + this.pokeArray[i]).subscribe(value => {
+          value = value.sprites.front_default;
+          this.newPokeArray.push(value);
+        });
+      } catch (error) {
+        alert('sth went wrong, reload page pls')
+      }
     }
-      setTimeout(() => console.log("this is new poke arr from service " + this.newPokeArray), 1000);
   }
 
+  clearArr() {
+    this.newPokeArray = [];
+  }
 }

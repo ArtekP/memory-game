@@ -1,11 +1,8 @@
 import {
   Component,
-  HostListener,
   OnInit
 } from '@angular/core';
-import {
-  PlayService
-} from './play.service';
+import { NewGameService } from '../new-game.service';
 import {
   PokeService
 } from './poke.service';
@@ -17,27 +14,28 @@ import {
 })
 export class TileComponent implements OnInit {
   pokeArray!: any[];
-  pokes!: any;
   activeIndex!: number;
-  activePokesArr: any[] = [];
-  allMatches: number = 0;
-  successfulMatches: number = 0;
-  matchedArr: any[] = [];
-  isModalActive: boolean = false;
-  timer: number = 0;
-  myInterval: any;
   isTimerGoing: boolean = false;
+  timer: number = 0;
+  isModalActive: boolean = false;
+  activePokesArr: any[] = [];
+  successfulMatches: number = 0;
+  allMatches: number = 0;
+  matchedArr: any[] = [];
 
 
-  constructor(private pokeService: PokeService) {
+  pokes!: any;
+  myInterval: any;
+
+  constructor(private pokeService: PokeService, private newGameServ: NewGameService) {
+    this.newGame();
+  }
+
+  newGame() {
+    this.clearVariablesForNewGame();
     this.pokeService.getRandomNumberList();
     this.pokeService.getPokeList();
     this.pokeArray = this.pokeService.newPokeArray;
-  }
-
-  @HostListener('dblclick', ['$event'])
-  clickEvent(event: any) {
-    event.srcElement.setAttribute('disabled', true);
   }
 
   ngOnInit() {
@@ -71,14 +69,22 @@ export class TileComponent implements OnInit {
 
     this.activePokesArr.length === 2 ? this.allMatches++ : '';
 
-
     if (this.successfulMatches === 10) {
       clearInterval(this.myInterval);
       this.isModalActive = true;
     }
   }
 
-  newGame() {
-    window.location.reload()
+  clearVariablesForNewGame() {
+    this.pokeArray = [];
+    this.activeIndex = -1;
+    this.isTimerGoing = false;
+    this.timer = 0;
+    this.isModalActive = false;
+    this.activePokesArr = [];
+    this.successfulMatches = 0;
+    this.allMatches = 0;
+    this.matchedArr = [];
+    this.pokeService.clearArr();
   }
 }
