@@ -1,3 +1,18 @@
+<!-- <div>
+  <p>Matches: {{ allMatches }}</p>
+  <p>Successful matches: {{ successfulMatches }}</p>
+  <p>{{timer }}</p>
+</div> -->
+
 <div class="container">
-    <div *ngFor="let poke of pokeArray"><img [src]="poke"></div>
+    <div
+    [class.active]="index === activeIndex"
+    [class.default]="index !== activeIndex && !matchedArr.includes(poke)"
+    [class.matched]="matchedArr.includes(poke)"
+    (click)="onActivate(poke); activeIndex = index;"
+    *ngFor="let poke of pokeArray; let index = index">
+      <img [src]="poke">
+    </div>
 </div>
+
+<app-modal [timer]="timer" [allMatches]="allMatches" *ngIf="isModalActive"></app-modal>

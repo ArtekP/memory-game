@@ -3,7 +3,11 @@
     font-family: "Pokemon";
     src: local("Pokemon"), url(assets/fonts/Pokemon/poke.ttf) format("truetype");
 }
-
+@font-face {
+  font-family: "Hope";
+  src: local("Hope"), url(assets/fonts/hope/hope.ttf) format("truetype");
+}
 body {
     background-image: url('/assets/images/background.jpeg');
+    font-family: "Hope";
 }

@@ -5,16 +5,18 @@ import { AppComponent } from './app.component';
 import { TileComponent } from './tile/tile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PokeService } from './tile/poke.service';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TileComponent
+    TileComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule 
+    HttpClientModule
   ],
   providers: [PokeService],
   bootstrap: [AppComponent]

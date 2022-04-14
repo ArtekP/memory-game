@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { PokeService } from './poke.service';
+import {
+  Component,
+  HostListener,
+  OnInit
+} from '@angular/core';
+import {
+  PlayService
+} from './play.service';
+import {
+  PokeService
+} from './poke.service';
 
 @Component({
   selector: 'app-tile',
@@ -9,26 +18,62 @@ import { PokeService } from './poke.service';
 export class TileComponent implements OnInit {
   pokeArray!: any[];
   pokes!: any;
+  activeIndex!: number;
+  activePokesArr: any[] = [];
+  allMatches: number = 0;
+  successfulMatches: number = 0;
+  matchedArr: any[] = [];
+  isModalActive: boolean = false;
+  timer: number = 0;
+  myInterval: any;
+  isTimerGoing: boolean = false;
 
-  constructor(private pokeService: PokeService) {
+
+  constructor(private pokeService: PokeService, private playServ: PlayService) {
     this.pokeService.getRandomNumberList();
     this.pokeService.getPokeList();
     this.pokeArray = this.pokeService.newPokeArray;
-    console.log(this.pokeArray)
-    // this.pokeService.getPokeList().subscribe((data: any) => {
-    //   this.pokes = data;
-    //   console.log(this.pokes)
-    // })
   }
 
-  ngOnInit(): void {
+  @HostListener('dblclick', ['$event'])
+  clickEvent(event: any) {
+    event.srcElement.setAttribute('disabled', true);
   }
 
-  getRandomPokemon() {
-    this.pokeService.getRandomNumberList();
+  ngOnInit() {
+    if (this.successfulMatches === 10) {
+      this.isModalActive = true;
+    }
   }
 
   getPokemon() {
     this.pokeService.getPokeList();
+  }
+
+  onActivate(poke: any) {
+    if (this.isTimerGoing == false) {
+      this.isTimerGoing = true;
+      this.myInterval = setInterval(() => this.timer++, 1000)
+    };
+    if (this.activePokesArr.length < 2) {
+      this.activePokesArr.push(poke);
+    } else if (this.activePokesArr.length === 2) {
+      if (this.activePokesArr[0] === this.activePokesArr[1]) {}
+      this.activePokesArr = [];
+      this.activePokesArr.push(poke);
+    }
+
+    if (this.activePokesArr[0] === this.activePokesArr[1]) {
+      this.successfulMatches++;
+      this.matchedArr.push(this.activePokesArr[0]);
+    }
+    if (this.activePokesArr.length === 2) {
+      this.allMatches++;
+    }
+
+    if (this.successfulMatches === 10) {
+      clearInterval(this.myInterval);
+      this.isModalActive = true;
+    }
   }
 }

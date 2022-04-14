@@ -8,15 +8,15 @@
   justify-items: center;
   align-items: center;
   width: 45em;
-  background-color: rgba(0, 0, 0, 0.171);
+  background-color: rgba(0, 0, 0, 0.271);
   padding: 2em;
   border-radius: 1em;
   position: relative;
 
-  >div {
+  .default  {
     height: 8em;
     width: 8em;
-    background-color: rgba(192, 192, 192, 0.515);
+    // background-color: rgba(192, 192, 192, 0.515);
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.234);
     border-radius: 1em;
     display: flex;
@@ -27,14 +27,50 @@
 
     >img {
       transform: rotateY(90deg);
+      opacity: 0.5;
       transition: 1s;
+      width: 100%;
+      height: 100%;
     }
   }
+}
 
-  >div:hover {
-    >img {
+.active {
+  background-color: rgba(255, 255, 0, 0.2);
+  height: 8em;
+  width: 8em;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.234);
+  border-radius: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  > img {
       transform: rotateY(180deg);
+      opacity: 1;
       transition: 1s;
-    }
+      width: 100%;
+      height: 100%;
+  }
+}
+
+.matched{
+  background-color: rgba(30, 255, 0, 0.575);
+  height: 8em;
+  width: 8em;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.234);
+  border-radius: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  pointer-events: none;
+  > img {
+      transform: rotateY(180deg);
+      opacity: 1;
+      transition: 1s;
+      width: 100%;
+      height: 100%;
   }
 }
