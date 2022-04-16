@@ -10,9 +10,9 @@ import {
 })
 export class PokeService {
   randomNumberArr: number[] = [];
-  pokes!: any;
-  pokeArray: any = [];
-  newPokeArray: any[] = [];
+  pokes!: string[];
+  pokeArray: number[] = [];
+  newPokeArray: string[] = [];
 
   configUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
@@ -46,7 +46,6 @@ export class PokeService {
   }
 
   getPokeList() {
-    let arr: any = [];
     for (let i = 0; i < 20; i++) {
       try {
         this.http.get < any > (this.configUrl + this.pokeArray[i]).subscribe(value => {
@@ -54,7 +53,7 @@ export class PokeService {
           this.newPokeArray.push(value);
         });
       } catch (error) {
-        alert('sth went wrong, reload page pls')
+        alert('There was a problem with PokeAPI. Reload page please or try again later.')
       }
     }
   }

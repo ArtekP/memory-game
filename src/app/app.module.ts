@@ -6,12 +6,14 @@ import { TileComponent } from './tile/tile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PokeService } from './tile/poke.service';
 import { ModalComponent } from './modal/modal.component';
+import { DebounceClickDirective } from './debounce-click.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     TileComponent,
-    ModalComponent
+    ModalComponent,
+    DebounceClickDirective
   ],
   imports: [
     BrowserModule,

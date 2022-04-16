@@ -2,10 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { NewGameService } from '../new-game.service';
-import {
-  PokeService
-} from './poke.service';
+import { NewGameService } from './new-game.service';
 
 @Component({
   selector: 'app-tile',
@@ -13,78 +10,50 @@ import {
   styleUrls: ['./tile.component.scss']
 })
 export class TileComponent implements OnInit {
-  pokeArray!: any[];
-  activeIndex!: number;
-  isTimerGoing: boolean = false;
-  timer: number = 0;
-  isModalActive: boolean = false;
-  activePokesArr: any[] = [];
-  successfulMatches: number = 0;
-  allMatches: number = 0;
-  matchedArr: any[] = [];
+  pokeArray!: string[];
+  activeIndex!:number;
+  timer!:number;
+  isModalActive!:boolean;
+  matchedArr!:string[];
+  allMatches!:number;
+  activePokesArr: string[] = [];
+  lastClickedArr: number[] = [-2, -1];
 
+  constructor(private newGameServ: NewGameService) {}
 
-  pokes!: any;
-  myInterval: any;
-
-  constructor(private pokeService: PokeService, private newGameServ: NewGameService) {
+  ngOnInit() {
     this.newGame();
+    this.newGameServ.allMatchesSubj.asObservable().subscribe(
+      value => this.allMatches = value
+    );
+    this.newGameServ.activePokesArrSubj.asObservable().subscribe(value =>
+      this.activePokesArr = value)
   }
 
   newGame() {
-    this.clearVariablesForNewGame();
-    this.pokeService.getRandomNumberList();
-    this.pokeService.getPokeList();
-    this.pokeArray = this.pokeService.newPokeArray;
+    this.newGameServ.matchedArrSubj.asObservable().subscribe(value =>
+    this.matchedArr = value);
+    this.newGameServ.newGame();
+    this.pokeArray =this.newGameServ.pokeArray;
+    this.newGameServ.activeIndex.asObservable().subscribe(
+      value => this.activeIndex = value
+    );
+    this.newGameServ.timerSubject.asObservable().subscribe(
+      value => this.timer = value
+    );
+    this.newGameServ.isModalActive.asObservable().subscribe(value => {
+      this.isModalActive = value;
+    });
   }
 
-  ngOnInit() {
-    if (this.successfulMatches === 10) {
-      this.isModalActive = true;
-    }
-  }
+  onActivate(poke: string, lastClickedIndex: number) {
+    this.newGameServ.onTileClick(poke);
+    this.lastClickedArr.push(lastClickedIndex);
+    this.lastClickedArr.shift();
 
-  getPokemon() {
-    this.pokeService.getPokeList();
-  }
-
-  onActivate(poke: any) {
-    if (this.isTimerGoing == false) {
-      this.isTimerGoing = true;
-      this.myInterval = setInterval(() => this.timer++, 1000)
-    };
-
-    if (this.activePokesArr.length < 2) {
-      this.activePokesArr.push(poke);
-    } else if (this.activePokesArr.length === 2) {
-      if (this.activePokesArr[0] === this.activePokesArr[1]) {}
-      this.activePokesArr = [];
-      this.activePokesArr.push(poke);
-    }
-
-    if (this.activePokesArr[0] === this.activePokesArr[1]) {
-      this.successfulMatches++;
-      this.matchedArr.push(this.activePokesArr[0]);
-    }
-
-    this.activePokesArr.length === 2 ? this.allMatches++ : '';
-
-    if (this.successfulMatches === 10) {
-      clearInterval(this.myInterval);
-      this.isModalActive = true;
-    }
-  }
-
-  clearVariablesForNewGame() {
-    this.pokeArray = [];
-    this.activeIndex = -1;
-    this.isTimerGoing = false;
-    this.timer = 0;
-    this.isModalActive = false;
-    this.activePokesArr = [];
-    this.successfulMatches = 0;
-    this.allMatches = 0;
-    this.matchedArr = [];
-    this.pokeService.clearArr();
+    // if(this.activePokesArr.length == 2) {
+    //   this.lastClickedArr = [-2, -1];
+    //   this.lastClickedArr.push(lastClickedIndex)
+    // }
   }
 }

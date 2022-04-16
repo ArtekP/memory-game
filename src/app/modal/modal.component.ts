@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -9,15 +9,17 @@ import { Component, ElementRef, Input } from '@angular/core';
 export class ModalComponent{
   @Input() timer!:number;
   @Input() allMatches!: number;
+  @Output() getNewGame = new EventEmitter<string>();
+  gameOverTime: string = '';
 
   constructor(private host: ElementRef<HTMLElement>) { }
 
-  timerToMinutes() {
-    return Math.floor(this.timer / 60) == 0 ? '' : `${Math.floor(this.timer / 60)}min `
+  ngOnInit() {
+    this.gameOverTime = `${this.timerToMinutes()}${this.timer % 60}sec`
   }
 
-  getTime() {
-    return `${this.timerToMinutes()}${this.timer % 60}sec`
+  timerToMinutes() {
+    return Math.floor(this.timer / 60) == 0 ? '' : `${Math.floor(this.timer / 60)}min `
   }
 
   onClose() {
@@ -25,6 +27,6 @@ export class ModalComponent{
   }
 
   newGame() {
-    window.location.reload();
+    this.getNewGame.next('');
   }
 }
